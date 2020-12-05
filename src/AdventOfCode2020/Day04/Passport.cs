@@ -18,14 +18,17 @@ namespace AdventOfCode2020.Day04
         };
 
         public string Content { get; }
-        public bool IsValid { get; }
+        public bool HasRequiredFields { get; }
+        public bool HasValidValues { get; }
 
         public Passport(string content)
         {
             Content = content;
 
-            IsValid = RequiredFields
+            HasRequiredFields = RequiredFields
                 .All(x => Content.Contains(x, StringComparison.OrdinalIgnoreCase));
+
+            HasValidValues = PassportValidation.AreValuesValid(Content);
         }
     }
 }
