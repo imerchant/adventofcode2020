@@ -27,7 +27,7 @@ namespace AdventOfCode2020.Day02
             var count = Content.Count(x => x == PolicyChar);
             IsValidByCount = count >= Param1 && count <= Param2;
 
-            IsValidByPosition = (Content[Param1 - 1] == PolicyChar) ^ (Content[Param2 - 1] == PolicyChar);
+            IsValidByPosition = (Content[Param1 - 1] == PolicyChar) ^ (Content[Param2 - 1] == PolicyChar); // xor AND non-zero indexes, in the same problem? madness.
         }
     }
 }

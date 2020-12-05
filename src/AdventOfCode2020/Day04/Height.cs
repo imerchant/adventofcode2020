@@ -17,8 +17,8 @@ namespace AdventOfCode2020.Day04
 
             return unit switch
             {
-                "in" => height >= 59 && height <= 76,
-                "cm" => height >= 150 && height <= 193,
+                "in" => height is >= 59 and <= 76,
+                "cm" => height is >= 150 and <= 193,
                 _ => false
             };
         }

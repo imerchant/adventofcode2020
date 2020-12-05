@@ -6,7 +6,7 @@ namespace AdventOfCode2020.Day03
     public class Slope
     {
         public const char Tree = '#';
-        public static (int Right, int Down) FirstSledAngle = (3, 1);
+        public static readonly (int Right, int Down) FirstSledAngle = (3, 1);
         public static readonly List<(int Right, int Down)> AllAngles = new List<(int, int)>
         {
             (1, 1),
@@ -18,11 +18,10 @@ namespace AdventOfCode2020.Day03
 
         public List<string> Grid { get; }
 
+        public int X { get; private set; }
+        public int Y { get; private set; }
 
-        public int X { get; private set; } = 0;
-        public int Y { get; private set; } = 0;
-
-        public char CurrentLocation => Grid[Y][X % Grid[0].Length];
+        public char CurrentLocation => Grid[Y][X % Grid[0].Length]; // infinite length strings babyyyyy
 
         public Slope(string input)
         {
@@ -43,7 +42,7 @@ namespace AdventOfCode2020.Day03
 
             } while (Y < Grid.Count);
 
-            (X, Y) = (0, 0);
+            (X, Y) = (0, 0); // reset so we can reuse the object
 
             return trees;
         }
@@ -52,7 +51,7 @@ namespace AdventOfCode2020.Day03
         {
             var results = AllAngles.Select(CountTreesOnDescent).ToList();
 
-            return results.Aggregate(1L, (state, item) => state * item);
+            return results.Aggregate(1L, (state, item) => state * item); // bwahahaha
         }
     }
 }

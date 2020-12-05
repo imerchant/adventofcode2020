@@ -18,7 +18,7 @@ namespace AdventOfCode2020.Day04
 
         public static bool AreValuesValid(string content)
         {
-            return Validations.All(x => x.IsValid(content));
+            return Validations.All(x => x.IsValid(content)); // strategy pattern lol
         }
     }
 }

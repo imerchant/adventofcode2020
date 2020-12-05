@@ -19,7 +19,7 @@ namespace AdventOfCode2020.Tests
         {
             var passports = new Passports(Input.Day04);
 
-            passports.Count(x => x.HasRequiredFields).Should().Be(206);
+            passports.Where(x => x.HasRequiredFields).Should().HaveCount(206);
         }
 
         [Fact]
@@ -27,7 +27,7 @@ namespace AdventOfCode2020.Tests
         {
             var passports = new Passports(Input.Day04);
 
-            passports.Count(x => x.HasValidValues).Should().Be(123);
+            passports.Where(x => x.HasValidValues).Should().HaveCount(123);
         }
 
         public const string Puzzle1Example =

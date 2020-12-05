@@ -6,7 +6,7 @@ namespace AdventOfCode2020.Day04
 {
     public class Passport
     {
-        public static readonly List<string> RequiredFields = new List<string>
+        public static readonly List<string> RequiredFields = new List<string> // include ':' to avoid string concatenation when looking for the fields
         {
             "byr:",
             "iyr:",

@@ -20,7 +20,7 @@ namespace AdventOfCode2020.Tests
 
             var passwords = new Passwords(input);
 
-            passwords.Count(x => x.IsValidByCount).Should().Be(572);
+            passwords.Where(x => x.IsValidByCount).Should().HaveCount(572);
         }
 
         [Fact]
@@ -30,7 +30,7 @@ namespace AdventOfCode2020.Tests
 
             var passwords = new Passwords(input);
 
-            passwords.Count(x => x.IsValidByPosition).Should().Be(306);
+            passwords.Where(x => x.IsValidByPosition).Should().HaveCount(306);
         }
 
         public const string PuzzleExample =
@@ -45,7 +45,7 @@ namespace AdventOfCode2020.Tests
 
             var passwords = new Passwords(input);
 
-            passwords.Count(x => x.IsValidByCount).Should().Be(2);
+            passwords.Where(x => x.IsValidByCount).Should().HaveCount(2);
         }
 
         [Fact]
@@ -55,7 +55,7 @@ namespace AdventOfCode2020.Tests
 
             var passwords = new Passwords(input);
 
-            passwords.Count(x => x.IsValidByPosition).Should().Be(1);
+            passwords.Where(x => x.IsValidByPosition).Should().HaveCount(1);
         }
     }
 }

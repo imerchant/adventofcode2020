@@ -20,7 +20,7 @@ namespace AdventOfCode2020.Day05
 
         public Seat(string boardingPass)
         {
-            var rowSpec = boardingPass[..7];
+            var rowSpec = boardingPass[..7]; // finally, a use case for range expressions
             var colSpec = boardingPass[7..];
 
             Row = Get(rowSpec, 127);
@@ -33,27 +33,18 @@ namespace AdventOfCode2020.Day05
             var (low, high) = (0, highStart);
             foreach (var position in spec.Select(x => PositionMap[x]))
             {
-                (low, high) = BinarySpacePartition(position);
+                // binary space partition
+                double middle = (high - low) / 2.0 + low; // if 'double' inspection says to use var, if 'var' ReSharper drops an inlay hint because it isn't descriptive enough. sigh.
+
+                (low, high) = position switch
+                {
+                    Position.Lower => (low,                        (int) Math.Floor(middle)), // tie goes to the lower partition, I guess
+                    Position.Upper => ((int) Math.Ceiling(middle), high),
+                    _ => throw new Exception("invalid position")
+                };
             }
 
             return low;
-
-            (int, int) BinarySpacePartition(Position position)
-            {
-                var middle = (high - low) / 2.0 + low;
-
-                switch (position)
-                {
-                    case Position.Lower:
-                        var newHigh = (int) Math.Floor(middle);
-                        return (low, newHigh);
-                    case Position.Upper:
-                        var newLow = (int) Math.Ceiling(middle);
-                        return (newLow, high);
-                    default:
-                        throw new Exception("invalid position");
-                }
-            }
         }
     }
 }

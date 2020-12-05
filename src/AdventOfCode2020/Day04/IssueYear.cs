@@ -14,7 +14,7 @@ namespace AdventOfCode2020.Day04
 
             var year = int.Parse(match.Groups["year"].Value);
 
-            return year >= 2010 && year <= 2020;
+            return year is >= 2010 and <= 2020;
         }
     }
 }

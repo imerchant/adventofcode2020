@@ -7,7 +7,7 @@ namespace AdventOfCode2020.Inputs
     {
         public static List<string> Day05Parse(string input) => input.SplitLines().ToList();
 
-        public const string Day05 = 
+        public const string Day05 =
 @"BFFBFBFLRL
 BFBFBBBLRR
 BFBFBFBLRR
