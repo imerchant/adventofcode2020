@@ -13,15 +13,21 @@ namespace AdventOfCode2020.Tests
         }
 
         [Fact]
-        public void Puzzle1_FindParThatAddsTo2020_AndMultiplyThem()
+        public void Puzzle1_FindPairThatAddsTo2020_AndMultiplyThem()
         {
             var entries = Input.Day01Parse(Input.Day01);
-
             var expenseReport = new ExpenseReport(entries);
 
-            var result = expenseReport.Find2020PairAndMultiply();
+            expenseReport.Find2020PairAndMultiply().Should().Be(1016131);
+        }
 
-            result.Should().Be(1016131);
+        [Fact]
+        public void Puzzle2_FindTripletsThatAddTo2020_AndMultiplyThem()
+        {
+            var entries = Input.Day01Parse(Input.Day01);
+            var expenseReport = new ExpenseReport(entries);
+
+            expenseReport.Find2020TripletAndMultiply().Should().Be(276432018);
         }
     }
 }
