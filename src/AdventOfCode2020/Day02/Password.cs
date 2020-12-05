@@ -5,7 +5,7 @@ namespace AdventOfCode2020.Day02
 {
     public class Password
     {
-        public static readonly Regex Format = new Regex(@"(?'min'\d+)-(?'max'\d+) (?'char'\w): (?'content'\w+)");
+        public static readonly Regex Format = new Regex(@"(?'min'\d+)-(?'max'\d+) (?'char'\w): (?'content'\w+)", RegexOptions.Compiled);
 
         public string Content { get; }
         public bool IsValidByCount { get; }
