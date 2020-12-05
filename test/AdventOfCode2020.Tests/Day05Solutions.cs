@@ -22,6 +22,14 @@ namespace AdventOfCode2020.Tests
             airplane.Max(x => x.Id).Should().Be(850);
         }
 
+        [Fact]
+        public void Puzzle2_FindMySeat()
+        {
+            var airplane = new Airplane(Input.Day05Parse(Input.Day05));
+
+            airplane.FindEmptySeat().Should().Be(599);
+        }
+
         [Theory]
         [InlineData("FBFBBFFRLR", 44, 5, 357)]
         [InlineData("BFFFBBFRRR", 70, 7, 567)]
