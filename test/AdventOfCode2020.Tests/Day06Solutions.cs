@@ -1,5 +1,4 @@
-﻿using System;
-using AdventOfCode2020.Day06;
+﻿using AdventOfCode2020.Day06;
 using AdventOfCode2020.Inputs;
 using FluentAssertions;
 using Xunit;
@@ -14,14 +13,15 @@ namespace AdventOfCode2020.Tests
         }
 
         [Fact]
-        public void Puzzle1_CountUniqueAnswersFromUniqueGroups()
+        public void Puzzle1And2_CountUniqueAnswers_AndUnanimousAnswers()
         {
             var forms = new Forms(Input.Day06);
 
             forms.UniqueYesAnswers.Should().Be(6903);
+            forms.UnanimousYesAnswers.Should().Be(3493);
         }
 
-        public const string Puzzle1Example =
+        public const string PuzzleExample =
 @"abc
 
 a
@@ -39,12 +39,13 @@ a
 b";
 
         [Fact]
-        public void Puzzle1Example_CountsGroups_AndAnswersCorrectly()
+        public void PuzzleExample_CountsGroups_AndAnswersCorrectly()
         {
-            var forms = new Forms(Puzzle1Example);
+            var forms = new Forms(PuzzleExample);
 
-            forms.Should().HaveCount(5);
+            forms.Groups.Should().HaveCount(5);
             forms.UniqueYesAnswers.Should().Be(11);
+            forms.UnanimousYesAnswers.Should().Be(6);
         }
     }
 }

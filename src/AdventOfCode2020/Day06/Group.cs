@@ -7,11 +7,17 @@ namespace AdventOfCode2020.Day06
     {
         public List<string> Answers { get; }
 
-        public int UniqueYesAnswers => Answers.SelectMany(x => x).Distinct().Count();
+        public HashSet<char> UniqueYesAnswers { get; }
+
+        public int UnanimousYesAnswersCount { get; }
 
         public Group(IEnumerable<string> input)
         {
-            Answers = input.Select(x => x.Trim()).ToList();
+            Answers = new List<string>(input);
+
+            UniqueYesAnswers = Answers.SelectMany(x => x).ToHashSet();
+
+            UnanimousYesAnswersCount = UniqueYesAnswers.Count(answer => Answers.All(x => x.Contains(answer)));
         }
     }
 }

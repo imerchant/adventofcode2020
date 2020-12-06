@@ -29,16 +29,22 @@ namespace AdventOfCode2020
         }
 
         /// <summary>
-        /// Splits the given string <paramref name="source"/> on the \\n character, optionally triming each split entry.
+        /// Splits the given string <paramref name="source"/> on the <see cref="Environment.NewLine"/> string, optionally
+        /// omitting empty elements and/or trimming each split entry.
         /// </summary>
         /// <param name="source">The string to split into lines.</param>
-        /// <param name="trimEnds">Defaults to <em>true</em>, determines whether the individual split entries are trimmed.</param>
+        /// <param name="removeEmptyEntries">Defaults to <em>true</em>, determines whether the split operation omits elements that contain
+        /// and empty string from the result.</param>
+        /// <param name="trimEntries">Defaults to <em>true</em>, determines whether the individual split entries are trimmed.</param>
         /// <returns>An enumerable of strings representing each line within the source string.</returns>
-        public static IEnumerable<string> SplitLines(this string source, bool trimEnds = true)
+        public static IEnumerable<string> SplitLines(this string source, bool removeEmptyEntries = true, bool trimEntries = true)
         {
-            return trimEnds
-                ? source.SplitOn('\n').TrimEach()
-                : source.SplitOn('\n');
+            var options = StringSplitOptions.None;
+
+            if (removeEmptyEntries) options |= StringSplitOptions.RemoveEmptyEntries;
+            if (trimEntries) options |= StringSplitOptions.TrimEntries;
+
+            return source.Split(new[] { Environment.NewLine }, options);
         }
 
         /// <summary>
