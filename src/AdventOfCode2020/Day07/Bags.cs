@@ -31,7 +31,7 @@ namespace AdventOfCode2020.Day07
                     continue;
                 }
 
-                foreach (var match in HasOtherBags.Matches(line).Cast<Match>())
+                foreach (Match match in HasOtherBags.Matches(line))
                 {
                     description = match.Groups["description"].Value;
                     if (thisBag is null)
