@@ -6,9 +6,9 @@ namespace AdventOfCode2020.Day07
 {
     public class Bags
     {
-        private const string ShinyGold = "shiny gold";
+        public const string ShinyGold = "shiny gold";
         public static readonly Regex NoOtherBags = new Regex(@"(?'description'\w+? \w+?) bags contain no other bags", RegexOptions.Compiled);
-        public static readonly Regex HasOtherBags = new Regex(@"(?'description'\w+? \w+?) bags*", RegexOptions.Compiled);
+        public static readonly Regex HasOtherBags = new Regex(@"(?:(?'count'\d) )*(?'description'\w+? \w+?) bags*", RegexOptions.Compiled);
 
         public Bag this[string description] => Entries[description];
 
@@ -41,8 +41,9 @@ namespace AdventOfCode2020.Day07
                     }
 
                     var someOtherBag = Entries[description];
+                    var count = int.Parse(match.Groups["count"].Value);
                     someOtherBag.ContainedBy.Add(thisBag);
-                    thisBag.Contains.Add(someOtherBag);
+                    thisBag.Contains.Add((someOtherBag, count));
                 }
             }
         }
@@ -64,6 +65,11 @@ namespace AdventOfCode2020.Day07
             } while (investigating.TryPeek(out _));
 
             return parents.Count;
+        }
+
+        public int CountShinyGoldChildren()
+        {
+            return Entries[ShinyGold].CountChildren() - 1; // minus 1 because we don't want to count the shiny gold bag itself
         }
     }
 }
