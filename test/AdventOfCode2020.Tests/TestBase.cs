@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
@@ -5,6 +6,7 @@ using Xunit.Abstractions;
 
 namespace AdventOfCode2020.Tests
 {
+    [ExcludeFromCodeCoverage]
     public abstract class TestBase
     {
         protected ITestOutputHelper Output { get; }

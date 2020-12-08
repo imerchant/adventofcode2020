@@ -56,22 +56,22 @@ namespace AdventOfCode2020.Tests
             int expectedLow, int expectedHigh)
         {
             BinarySpacePartition(startLow, startHigh, position).Should().Be((expectedLow, expectedHigh));
-        }
 
-        private static (int Low, int High) BinarySpacePartition(int low, int high, Position position)
-        {
-            var middle = (high - low) / 2.0 + low;
-
-            switch (position)
+            static (int Low, int High) BinarySpacePartition(int low, int high, Position position)
             {
-                case Position.Lower:
-                    var newHigh = (int) Math.Floor(middle);
-                    return (low, newHigh);
-                case Position.Upper:
-                    var newLow = (int) Math.Ceiling(middle);
-                    return (newLow, high);
-                default:
-                    throw new Exception("invalid position");
+                var middle = (high - low) / 2.0 + low;
+
+                switch (position)
+                {
+                    case Position.Lower:
+                        var newHigh = (int)Math.Floor(middle);
+                        return (low, newHigh);
+                    case Position.Upper:
+                        var newLow = (int)Math.Ceiling(middle);
+                        return (newLow, high);
+                    default:
+                        throw new Exception("invalid position");
+                }
             }
         }
 

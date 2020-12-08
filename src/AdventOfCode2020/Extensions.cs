@@ -120,7 +120,7 @@ namespace AdventOfCode2020
         /// <typeparam name="TEnum">The enum type to be parsed into.</typeparam>
         /// <returns>An enum of type TEnum, parsed from the given string.</returns>
         /// <throws>InvalidOperationException if the given type is not an enum.</throws>
-        public static TEnum ParseEnum<TEnum>(this string value, bool ignoreCase = true, TEnum defaultValue = default(TEnum))
+        public static TEnum ParseEnum<TEnum>(this string value, bool ignoreCase = true, TEnum defaultValue = default)
             where TEnum : struct, System.Enum
         {
             if (!typeof(TEnum).IsEnum)
@@ -140,11 +140,11 @@ namespace AdventOfCode2020
         /// <typeparam name="TEnum">The enum type to be parsed into.</typeparam>
         /// <returns>A collection of enums of type TEnum, parsed from the given strings.</returns>
         /// <throws>InvalidOperationException if the given type is not an enum.</throws>
-        public static IList<TEnum> ParseEnums<TEnum>(this IEnumerable<string> source, bool ignoreCase = true, TEnum defaultValue = default(TEnum))
+        public static IList<TEnum> ParseEnums<TEnum>(this IEnumerable<string> source, bool ignoreCase = true, TEnum defaultValue = default)
             where TEnum : struct, System.Enum
         {
             return source.HasAny()
-                ? source.Select(x => x.ParseEnum<TEnum>(ignoreCase, defaultValue)).ToList()
+                ? source.Select(x => x.ParseEnum(ignoreCase, defaultValue)).ToList()
                 : new List<TEnum>(0);
         }
 

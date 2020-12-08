@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-namespace AdventOfCode2020.Day08
+﻿namespace AdventOfCode2020.Day08
 {
     public class Instruction
     {
@@ -15,10 +13,6 @@ namespace AdventOfCode2020.Day08
             Value = value;
         }
 
-        public override string ToString() =>
-            new StringBuilder($"{Op:G}")
-                .Append(Value < 0 ? " " : " +")
-                .Append(Value)
-                .ToString();
+        public override string ToString() => $"{Op:G} {Value:+0;-0}"; // that string format for numbers is really cool
     }
 }
