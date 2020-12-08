@@ -30,6 +30,8 @@ namespace AdventOfCode2020.Day08
         public void FindSecondInstructionExecution()
         {
             var visited = new HashSet<int>(Instructions.Count);
+            Accumulator = 0;
+
             for (var k = 0; k < Instructions.Count;)
             {
                 var instruction = Instructions[k];
@@ -58,7 +60,6 @@ namespace AdventOfCode2020.Day08
         public (bool Success, int Accumulator) Run()
         {
             var success = true;
-            Accumulator = 0;
 
             try
             {
