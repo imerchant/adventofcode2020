@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace AdventOfCode2020
 {
+    [ExcludeFromCodeCoverage]
     public class DefaultDictionary<TKey, TValue> : IDictionary<TKey, TValue>
     {
         private readonly Func<TKey, TValue> _defaultFactory;

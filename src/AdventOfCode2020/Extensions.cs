@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace AdventOfCode2020
 {
+    [ExcludeFromCodeCoverage]
     internal static class Extensions
     {
         /// <summary>
