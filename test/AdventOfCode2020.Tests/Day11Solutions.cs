@@ -20,10 +20,24 @@ namespace AdventOfCode2020.Tests
             bool result;
             do
             {
-                result = area.Tick();
+                result = area.Puzzle1Tick();
             } while (result is true);
 
             area.OccupiedSeats.Should().Be(2361);
+        }
+
+        [Fact]
+        public void Puzzle2_FindOccupiedSeatCount_WithModifiedAlgorithm()
+        {
+            var area = new WaitingArea(Input.Day11);
+
+            bool result;
+            do
+            {
+                result = area.Puzzle2Tick();
+            } while (result is true);
+
+            area.OccupiedSeats.Should().Be(2119);
         }
 
         public const string Example =
@@ -53,14 +67,14 @@ L.LLLLL.LL";
         [InlineData(4, true,  "#.#L.L#.###LLL#LL.L#L.L.L..#..#LLL.##.L##.LL.LL.LL#.LL#L#.##..L.L.....#L#LLLL#L##.LLLLLL.L#.#L#L#.##")]
         [InlineData(5, true,  "#.#L.L#.###LLL#LL.L#L.#.L..#..#L##.##.L##.#L.LL.LL#.#L#L#.##..L.L.....#L#L##L#L##.LLLLLL.L#.#L#L#.##")]
         [InlineData(6, false,  "#.#L.L#.###LLL#LL.L#L.#.L..#..#L##.##.L##.#L.LL.LL#.#L#L#.##..L.L.....#L#L##L#L##.LLLLLL.L#.#L#L#.##")]
-        public void WaitingArea_FirstTick_FillsAllSeats(int numTicks, bool expectedTickResult, string expectedGrid)
+        public void WaitingArea_Puzzle1Ticks_HaveCorrectPatternResults(int numTicks, bool expectedTickResult, string expectedGrid)
         {
             var area = new WaitingArea(Example);
             bool? result = null;
 
             for (var k = 0; k < numTicks; ++k)
             {
-                result = area.Tick();
+                result = area.Puzzle1Tick();
             }
 
             result.Should().Be(expectedTickResult);
@@ -75,10 +89,32 @@ L.LLLLL.LL";
             bool result;
             do
             {
-                result = area.Tick();
+                result = area.Puzzle1Tick();
             } while (result is true);
 
             area.OccupiedSeats.Should().Be(37);
+        }
+
+        [Theory]
+        [InlineData(1, true,  "#.##.##.#########.###.#.#..#..####.##.###.##.##.###.#####.##..#.#.....###########.######.##.#####.##")]
+        [InlineData(2, true,  "#.LL.LL.L##LLLLLL.LLL.L.L..L..LLLL.LL.LLL.LL.LL.LLL.LLLLL.LL..L.L.....LLLLLLLLL##.LLLLLL.L#.LLLLL.L#")]
+        [InlineData(3, true,  "#.L#.##.L##L#####.LLL.#.#..#..##L#.##.###.##.#L.###.#####.#L..#.#.....LLL####LL##.L#####.L#.L####.L#")]
+        [InlineData(4, true,  "#.L#.L#.L##LLLLLL.LLL.L.L..#..##LL.LL.L#L.LL.LL.L##.LLLLL.LL..L.L.....LLLLLLLLL##.LLLLL#.L#.L#LL#.L#")]
+        [InlineData(5, true,  "#.L#.L#.L##LLLLLL.LLL.L.L..#..##L#.#L.L#L.L#.#L.L##.L####.LL..#.#.....LLL###LLL##.LLLLL#.L#.L#LL#.L#")]
+        [InlineData(6, true,  "#.L#.L#.L##LLLLLL.LLL.L.L..#..##L#.#L.L#L.L#.LL.L##.LLLL#.LL..#.L.....LLL###LLL##.LLLLL#.L#.L#LL#.L#")]
+        [InlineData(7, false, "#.L#.L#.L##LLLLLL.LLL.L.L..#..##L#.#L.L#L.L#.LL.L##.LLLL#.LL..#.L.....LLL###LLL##.LLLLL#.L#.L#LL#.L#")]
+        public void WaitingArea_Puzzle2Ticks_HaveCorrectPatternResults(int numTicks, bool expectedTickResult, string expectedGrid)
+        {
+            var area = new WaitingArea(Example);
+            bool? result = null;
+
+            for (var k = 0; k < numTicks; ++k)
+            {
+                result = area.Puzzle2Tick();
+            }
+
+            result.Should().Be(expectedTickResult);
+            area.ToString().Should().Be(expectedGrid);
         }
     }
 }

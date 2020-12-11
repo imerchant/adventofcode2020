@@ -2,6 +2,6 @@
 {
     public interface ISpot
     {
-        Occupied CurrentlyIs { get; }
+        bool IsOccupied { get; }
     }
 }

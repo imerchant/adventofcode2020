@@ -4,7 +4,7 @@
     {
         private const string _floor = ".";
 
-        public Occupied CurrentlyIs { get; } = Occupied.No;
+        public bool IsOccupied { get; } = false;
 
         public override string ToString() => _floor;
     }

@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace AdventOfCode2020.Day11
@@ -25,7 +24,7 @@ namespace AdventOfCode2020.Day11
         public int Height { get; }
         public int Width { get; }
 
-        public int OccupiedSeats => Grid.OfType<ISpot>().Count(x => x.CurrentlyIs == Occupied.Yes);
+        public int OccupiedSeats => Grid.OfType<ISpot>().Count(x => x.IsOccupied);
 
         public WaitingArea(string input)
         {
@@ -50,17 +49,17 @@ namespace AdventOfCode2020.Day11
             }
         }
 
-        public bool Tick()
+        public bool Puzzle1Tick()
         {
             foreach (var seat in Grid.OfType<Seat>())
             {
                 var neighbors = Mods.Count(mod => IsOccupied(seat.Row + mod.Row, seat.Col + mod.Col));
 
-                seat.WillBe = seat.CurrentlyIs switch
+                seat.WillBeOccupied = seat.IsOccupied switch
                 {
-                    Occupied.No when neighbors == 0 => Occupied.Yes,
-                    Occupied.Yes when neighbors >= 4 => Occupied.No,
-                    _ => seat.CurrentlyIs
+                    false when neighbors == 0 => true,
+                    true when neighbors >= 4 => false,
+                    _ => seat.IsOccupied
                 };
             }
 
@@ -71,14 +70,47 @@ namespace AdventOfCode2020.Day11
 
             return _permutations.Add(ToString());
 
-            bool IsOccupied(int row, int col)
-            {
-                if (row < 0 || row >= Height || col < 0 || col >= Width) return false;
+            bool IsOccupied(int row, int col) => IsInBounds(row, col) && Grid[row, col].IsOccupied;
+        }
 
-                return Grid[row, col].CurrentlyIs == Occupied.Yes;
+        public bool Puzzle2Tick()
+        {
+            foreach (var seat in Grid.OfType<Seat>())
+            {
+                var neighbors = Mods.Count(mod => IsOccupied(seat, mod));
+
+                seat.WillBeOccupied = seat.IsOccupied switch
+                {
+                    false when neighbors == 0 => true,
+                    true when neighbors >= 5 => false,
+                    _ => seat.IsOccupied
+                };
+            }
+
+            foreach (var seat in Grid.OfType<Seat>())
+            {
+                seat.Commit();
+            }
+
+            return _permutations.Add(ToString());
+
+            bool IsOccupied(Seat seat, Mod mod)
+            {
+                var (row, col) = (seat.Row, seat.Col);
+
+                while (IsInBounds(row + mod.Row, col + mod.Col))
+                {
+                    (row, col) = (row + mod.Row, col + mod.Col);
+                    if (Grid[row, col] is Seat otherSeat)
+                        return otherSeat.IsOccupied;
+                }
+
+                return false;
             }
         }
 
         public override string ToString() => string.Join(string.Empty, Grid.Cast<ISpot>());
+
+        private bool IsInBounds(int row, int col) => row >= 0 && row < Height && col >= 0 && col < Width;
     }
 }
