@@ -13,13 +13,14 @@ namespace AdventOfCode2020.Tests
         }
 
         [Fact]
-        public void Puzzle1_FindProductOfDifferencesOf1AndOf3()
+        public void Puzzle1And2_FindProductOfDifferencesOf1AndOf3_AndPermutations()
         {
             var adapters = new JoltageAdapters(Input.Day10);
 
             var (of1, of3) = adapters.GetDifferences();
 
             (of1 * of3).Should().Be(2432);
+            adapters.Permutations.Should().Be(453551299002368L);
         }
 
         public const string Example1 =
@@ -43,6 +44,7 @@ namespace AdventOfCode2020.Tests
             adapters.Should().HaveCount(13).And.BeInAscendingOrder().And.StartWith(0).And.EndWith(22);
 
             adapters.GetDifferences().Should().Be((7, 5));
+            adapters.Permutations.Should().Be(8L);
         }
 
         public const string Example2 =
@@ -84,6 +86,7 @@ namespace AdventOfCode2020.Tests
             var adapters = new JoltageAdapters(Example2);
 
             adapters.GetDifferences().Should().Be((22, 10));
+            adapters.Permutations.Should().Be(19208L);
         }
     }
 }
