@@ -22,6 +22,16 @@ namespace AdventOfCode2020.Tests
             ferry.ManhattanDistance.Should().Be(1645);
         }
 
+        [Fact]
+        public void Puzzle2_FollowInstructionsWithWaypoint_AndFindManhattanDistance()
+        {
+            var ferry = new Ferry(Input.Day12);
+
+            ferry.FollowInstructionsWithWaypoint();
+
+            ferry.ManhattanDistance.Should().Be(35292);
+        }
+
         public const string Example =
 @"F10
 N3
@@ -52,6 +62,17 @@ F11";
 
             (ferry.X, ferry.Y).Should().Be((17, -8));
             ferry.ManhattanDistance.Should().Be(25);
+        }
+
+        [Fact]
+        public void FerryAndWaypoint_FollowInstructions_WithExample_EndsUpInCorrectPlace()
+        {
+            var ferry = new Ferry(Example);
+
+            ferry.FollowInstructionsWithWaypoint();
+
+            (ferry.X, ferry.Y).Should().Be((214, -72));
+            ferry.ManhattanDistance.Should().Be(286);
         }
     }
 }

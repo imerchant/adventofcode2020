@@ -14,6 +14,7 @@ namespace AdventOfCode2020.Day12
         public int X { get; private set; }
         public int Y { get; private set; }
         public Direction Facing { get; private set; }
+        public Waypoint Waypoint { get; }
 
         public int ManhattanDistance => Math.Abs(X) + Math.Abs(Y);
 
@@ -24,6 +25,8 @@ namespace AdventOfCode2020.Day12
                     match.Groups["direction"].Value.ParseEnum<Direction>(default),
                     int.Parse(match.Groups["value"].Value)))
                 .ToList();
+
+            Waypoint = new Waypoint();
         }
 
         public void FollowInstructions()
@@ -99,30 +102,55 @@ namespace AdventOfCode2020.Day12
                     _ => throw new Exception("trying to rotate with a direction that isn't valid")
                 };
             }
+        }
 
-            void Move(Direction direction, int value)
+        public void FollowInstructionsWithWaypoint()
+        {
+            (X, Y, Facing) = (0, 0, Direction.E);
+            Waypoint.Reset();
+
+            foreach (var (direction, value) in Instructions)
             {
-                X = direction switch
+                switch (direction)
                 {
-                    Direction.E => X + value,
-                    Direction.W => X - value,
-                    _ => X
-                };
+                    case Direction.F:
+                        for (var k = 0; k < value; ++k)
+                        {
+                            Move(Direction.E, Waypoint.RelativeX);
+                            Move(Direction.N, Waypoint.RelativeY);
+                        }
+                        break;
 
-                Y = direction switch
-                {
-                    Direction.N => Y + value,
-                    Direction.S => Y - value,
-                    _ => Y
-                };
+                    case Direction.N:
+                    case Direction.E:
+                    case Direction.S:
+                    case Direction.W:
+                        Waypoint.Move(direction, value);
+                        break;
+
+                    case Direction.L:
+                    case Direction.R:
+                        Waypoint.Rotate(direction, value);
+                        break;
+                }
             }
         }
-    }
 
-    public enum Direction
-    {
-        N, E, S, W,
-        L, R,
-        F
+        private void Move(Direction direction, int value)
+        {
+            X = direction switch
+            {
+                Direction.E => X + value,
+                Direction.W => X - value,
+                _ => X
+            };
+
+            Y = direction switch
+            {
+                Direction.N => Y + value,
+                Direction.S => Y - value,
+                _ => Y
+            };
+        }
     }
 }
