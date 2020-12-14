@@ -5,7 +5,7 @@ namespace AdventOfCode2020.Inputs
 {
     public static partial class Input
     {
-        public static List<string> Day02Parse(string input) => input.SplitLines().ToList();
+        public static IList<string> Day02Parse(string input) => input.SplitLines().ToList();
 
         public const string Day02 = 
 @"15-16 p: ppppppppppplppppp
