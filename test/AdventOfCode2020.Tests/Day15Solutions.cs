@@ -27,7 +27,7 @@ namespace AdventOfCode2020.Tests
             game.Numbers.Last().Should().Be(496);
         }
 
-        [Fact(Skip = "Takes ~3.3 seconds")]
+        [Fact(Skip = "Takes ~3 seconds")]
         public void Puzzle2_NumberGame_Find30000000thNumber()
         {
             var game = new NumberGame(Input.Day15);

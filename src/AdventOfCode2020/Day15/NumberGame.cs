@@ -12,7 +12,7 @@ namespace AdventOfCode2020.Day15
         public NumberGame(IEnumerable<int> numbers)
         {
             Numbers = new List<int>(numbers);
-            PreviousIndexOf = new DefaultDictionary<int, int>(_ => 0);
+            PreviousIndexOf = new Dictionary<int, int>();
 
             for (var k = 0; k < Numbers.Count; ++k)
             {
