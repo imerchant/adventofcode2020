@@ -7,45 +7,33 @@ namespace AdventOfCode2020.Day15
     {
         public IList<int> Numbers { get; }
 
-        public IDictionary<int, List<int>> Indexes { get; }
+        public IDictionary<int, int> PreviousIndexOf { get; } // we only care about the last known location, not the entire history
 
         public NumberGame(IEnumerable<int> numbers)
         {
             Numbers = new List<int>(numbers);
-            Indexes = new DefaultDictionary<int, List<int>>(_ => new List<int>());
+            PreviousIndexOf = new DefaultDictionary<int, int>(_ => 0);
 
             for (var k = 0; k < Numbers.Count; ++k)
             {
-                Indexes[Numbers[k]].Add(k);
+                PreviousIndexOf[Numbers[k]] = k + 1;
             }
         }
 
         public int Turn()
         {
-            var last = Numbers.Last();
-            var age = 0;
+            var last = Numbers.Last(); // get the last number generated
+            var age = 0; // default the age to 0
 
-            if (TryPreviousInstance(out var previousIndex))
+            if (PreviousIndexOf.TryGetValue(last, out var previousIndex)) // if we've seen it, grab the previous index
             {
-                age = Numbers.Count - 1 - previousIndex; // Numbers.Count - 1 because of indexing at 0
+                age = Numbers.Count - previousIndex; // generate its age
             }
 
-            Indexes[age].Add(Numbers.Count);
-            Numbers.Add(age);
+            PreviousIndexOf[last] = Numbers.Count; // update its last known location to here
+            Numbers.Add(age); // add the new number to the list (crucially, do not record or update its location, that will happen next loop)
 
             return age;
-
-            bool TryPreviousInstance(out int previous)
-            {
-                previous = -1;
-                if (Indexes.TryGetValue(last, out var indexes) && indexes.Count > 1)
-                {
-                    previous = indexes[^2];
-                    return true;
-                }
-
-                return false;
-            }
         }
     }
 }
