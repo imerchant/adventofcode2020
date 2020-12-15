@@ -30,7 +30,7 @@ namespace AdventOfCode2020.Day15
                 age = Numbers.Count - previousIndex; // generate its age
             }
 
-            PreviousIndexOf[last] = Numbers.Count; // update its last known location to here
+            PreviousIndexOf[last] = Numbers.Count; // record or update its last known location to here
             Numbers.Add(age); // add the new number to the list (crucially, do not record or update its location, that will happen next loop)
 
             return age;
