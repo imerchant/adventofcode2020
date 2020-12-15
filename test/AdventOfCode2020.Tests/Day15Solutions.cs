@@ -27,6 +27,19 @@ namespace AdventOfCode2020.Tests
             game.Numbers.Last().Should().Be(496);
         }
 
+        [Fact(Skip = "Takes 7+ seconds")]
+        public void Puzzle2_NumberGame_Find30000000thNumber()
+        {
+            var game = new NumberGame(Input.Day15);
+
+            do
+            {
+                game.Turn();
+            } while (game.Numbers.Count < 30_000_000);
+
+            game.Numbers.Last().Should().Be(883);
+        }
+
         public static IEnumerable<object[]> ExamplesFind2020thNumber()
         {
             yield return new object[] { new [] { 0, 3, 6 }, 436 };
