@@ -1,64 +1,65 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 
 namespace AdventOfCode2020.Day16
 {
     public class Tickets
     {
-        public IList<TicketField> Fields { get; }
-        public IList<IList<int>> Nearby { get; }
+        public IList<Field> Fields { get; }
+        public IList<Ticket> Nearby { get; }
+        public Ticket MyTicket { get; }
+        public IList<Ticket> ValidTickets { get; }
 
-        public Tickets(string fields, string nearbyTickets)
+        public Tickets(string fields, string nearbyTickets, string myTicket)
         {
             Fields = fields
                 .SplitLines()
-                .Select(x => new TicketField(x))
+                .Select(x => new Field(x))
                 .ToList();
 
             Nearby = nearbyTickets
                 .SplitLines()
-                .Select<string, IList<int>>(x => x.SplitOn(',').Select(int.Parse).ToList())
+                .Select(x => new Ticket(x.SplitOn(',').Select(int.Parse), Fields))
                 .ToList();
+
+            MyTicket = new Ticket(myTicket.SplitOn(',').Select(int.Parse), Fields);
+
+            ValidTickets = new List<Ticket>(Nearby.Where(x => x.IsValid)) { MyTicket };
         }
 
-        public int GetErrorRate()
+        public long FindProductOfDepartureFieldsInMyTicket()
         {
-            var errorRate = 0;
-
-            foreach (var ticket in Nearby)
+            // find all valid indices for each field
+            var indices = Enumerable.Range(0, MyTicket.Count).ToList();
+            foreach (var field in Fields)
             {
-                var invalidFields = ticket.Where(value => Fields.All(field => !field.IsValid(value)));
-                errorRate += invalidFields.Sum();
+                field.Indices.AddRange(indices.Where(index => FieldIsValidForValuesAtIndex(field, index)));
             }
 
-            return errorRate;
+            // identify fields with only one possible position, and consecutively cull that position from other fields until
+            // each has only one position
+            do
+            {
+                var singles = Fields.Where(field => field.Indices.Count == 1).ToList();
+
+                foreach (var single in singles)
+                {
+                    foreach (var field in Fields.Where(field => field.Indices.Count > 1).ToList())
+                    {
+                        field.Indices.Remove(single.Index);
+                    }
+                }
+            } while (Fields.Any(field => field.Indices.Count > 1));
+
+            // gather the departure fields and return the product of the values in my ticket
+            var departureFields = Fields.Where(x => x.Name.Contains("departure"));
+
+            return departureFields.Aggregate(1L, (accumulator, field) => accumulator * MyTicket[field.Index]);
+
+            bool FieldIsValidForValuesAtIndex(Field field, int index) =>
+                ValidTickets
+                    .Select(ticket => ticket[index])
+                    .All(field.IsValid);
         }
-    }
-
-    public class TicketField
-    {
-        public static readonly Regex Format = new Regex(@"(?'name'.+): (?'low1'\d+)-(?'high1'\d+) or (?'low2'\d+)-(?'high2'\d+)", RegexOptions.Compiled);
-
-        public string Name { get; }
-
-        public int Low1 { get; }
-        public int High1 { get; }
-
-        public int Low2 { get; }
-        public int High2 { get; }
-
-        public TicketField(string content)
-        {
-            var match = Format.Match(content);
-
-            Name = match.Groups["name"].Value;
-            Low1 = int.Parse(match.Groups["low1"].Value);
-            High1 = int.Parse(match.Groups["high1"].Value);
-            Low2 = int.Parse(match.Groups["low2"].Value);
-            High2 = int.Parse(match.Groups["high2"].Value);
-        }
-
-        public bool IsValid(int value) => value >= Low1 && value <= High1 || value >= Low2 && value <= High2;
     }
 }

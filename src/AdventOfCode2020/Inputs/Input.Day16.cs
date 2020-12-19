@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-
-namespace AdventOfCode2020.Inputs
+﻿namespace AdventOfCode2020.Inputs
 {
     public static partial class Input
     {
