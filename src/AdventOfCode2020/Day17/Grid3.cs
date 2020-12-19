@@ -4,9 +4,9 @@ using System.Linq;
 
 namespace AdventOfCode2020.Day17
 {
-    public class Grid : IEnumerable<Cube>
+    public class Grid3 : IEnumerable<Cube3>
     {
-        public static readonly List<(int ModX, int ModY, int Modz)> Mods = new() // first impression is I do not like that syntax
+        public static readonly List<(int ModX, int ModY, int ModZ)> Mods = new() // first impression is I do not like that syntax
         {
             (-1, -1, -1),
             (-1, -1, +0),
@@ -36,13 +36,13 @@ namespace AdventOfCode2020.Day17
             (+1, +1, +1)
         };
 
-        public IDictionary<(int X, int Y, int Z), Cube> Cubes { get; }
+        public IDictionary<(int X, int Y, int Z), Cube3> Cubes { get; }
 
         public int ActiveCubeCount => Cubes.Count(x => x.Value.IsActive);
 
-        public Grid(string input)
+        public Grid3(string input)
         {
-            Cubes = new DefaultDictionary<(int X, int Y, int Z), Cube>(((int X, int Y, int z) location) => new Cube(location));
+            Cubes = new DefaultDictionary<(int X, int Y, int Z), Cube3>(location => new Cube3(location));
             
             var lines = input.SplitLines().ToList();
 
@@ -55,7 +55,7 @@ namespace AdventOfCode2020.Day17
                 }
             }
 
-            var cubes = new List<Cube>(Cubes.Values);
+            var cubes = new List<Cube3>(Cubes.Values);
             foreach (var cube in cubes)
             {
                 _ = GetActiveNeighbors(cube.Location);
@@ -77,7 +77,7 @@ namespace AdventOfCode2020.Day17
 
         public void Step()
         {
-            var cubes = new List<Cube>(Cubes.Values);
+            var cubes = new List<Cube3>(Cubes.Values);
             foreach (var cube in cubes)
             {
                 var activeNeighbors = GetActiveNeighbors(cube.Location);
@@ -97,7 +97,7 @@ namespace AdventOfCode2020.Day17
             }
         }
 
-        public IEnumerator<Cube> GetEnumerator() => Cubes.Values.GetEnumerator();
+        public IEnumerator<Cube3> GetEnumerator() => Cubes.Values.GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }

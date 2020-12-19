@@ -1,19 +1,19 @@
 ﻿namespace AdventOfCode2020.Day17
 {
-    public class Cube
+    public class Cube3
     {
         public (int X, int Y, int Z) Location { get; }
         
         public bool IsActive { get; private set; }
         public bool WillBeActive { get; set; }
 
-        public Cube((int X, int Y, int Z) location, bool isActive = false)
+        public Cube3((int X, int Y, int Z) location, bool isActive = false)
         {
             Location = location;
             IsActive = WillBeActive = isActive;
         }
 
-        public Cube WillBe(bool willBe)
+        public Cube3 WillBe(bool willBe)
         {
             WillBeActive = willBe;
             return this;
