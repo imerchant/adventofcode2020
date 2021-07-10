@@ -1,4 +1,7 @@
+using System.Numerics;
+using System.Text;
 using AdventOfCode2020.Day18;
+using AdventOfCode2020.Inputs;
 using FluentAssertions;
 using Xunit;
 using Xunit.Abstractions;
@@ -7,11 +10,25 @@ namespace AdventOfCode2020.Tests
 {
     public class Day18Solutions : TestBase
     {
-        private readonly BetterMath2 _betterMath;
+        private readonly BetterMath _betterMath;
 
         public Day18Solutions(ITestOutputHelper helper) : base(helper)
         {
-            _betterMath = new BetterMath2();
+            _betterMath = new BetterMath();
+        }
+
+        [Fact]
+        public void Puzzle1_SumAllInputCalculations()
+        {
+            var sum = new BigInteger(0);
+            foreach (var line in Input.Day18Parse(Input.Day18))
+            {
+                var result = _betterMath.Calculate(line, out var iterations);
+                result.Should().NotBe(-1);
+                sum += result;
+            }
+
+            sum.Should().Be(1451467526514L);
         }
 
         [Theory]
@@ -26,13 +43,26 @@ namespace AdventOfCode2020.Tests
         [InlineData("((2 + 4 * 9) * (6 + 9 * 8 + 6) + 6) + 2 + 4 * 2", 13632)]
         public void Puzzle1Examples_CalculateCorrectly(string input, int expectedValue)
         {
-            _betterMath.Calculate(input).Should().Be(expectedValue);
+            var result = _betterMath.Calculate(input, out var iterations);
+
+            foreach (var iteration in iterations)
+            {
+                Output.WriteLine(iteration);
+            }
+
+            result.Should().Be(expectedValue);
         }
 
         [Fact]
-        public void NotInfiniteLoop()
+        public void StringBuilder()
         {
-            new BetterMath2().Calculate("1 + 2").Should().Be(1);
+            const int index = 0;
+            const int length = 5;
+            var builder = new StringBuilder("1 + 2 + 3");
+            builder.Remove(index, length);
+            builder.Insert(0, "3");
+
+            builder.ToString().Should().Be("3 + 3");
         }
     }
 }
